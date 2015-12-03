@@ -1,0 +1,418 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E195A2A31C10507F000F78C2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E195A2A21C10507F000F78C2 /* AppDelegate.m */; };
+		E195A2A61C10507F000F78C2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E195A2A51C10507F000F78C2 /* main.m */; };
+		E195A2A91C10507F000F78C2 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = E195A2A81C10507F000F78C2 /* Document.m */; };
+		E195A2AC1C10507F000F78C2 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = E195A2AA1C10507F000F78C2 /* Document.xib */; };
+		E195A2AE1C10507F000F78C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E195A2AD1C10507F000F78C2 /* Assets.xcassets */; };
+		E195A2B11C10507F000F78C2 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E195A2AF1C10507F000F78C2 /* MainMenu.xib */; };
+		E195A2BC1C10507F000F78C2 /* Mass_ChecksumUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E195A2BB1C10507F000F78C2 /* Mass_ChecksumUITests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E195A2B81C10507F000F78C2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E195A2961C10507F000F78C2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E195A29D1C10507F000F78C2;
+			remoteInfo = "Mass Checksum";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E195A29E1C10507F000F78C2 /* Mass Checksum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mass Checksum.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E195A2A11C10507F000F78C2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		E195A2A21C10507F000F78C2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E195A2A51C10507F000F78C2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E195A2A71C10507F000F78C2 /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
+		E195A2A81C10507F000F78C2 /* Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
+		E195A2AB1C10507F000F78C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Document.xib; sourceTree = "<group>"; };
+		E195A2AD1C10507F000F78C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E195A2B01C10507F000F78C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		E195A2B21C10507F000F78C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E195A2B71C10507F000F78C2 /* Mass ChecksumUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mass ChecksumUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E195A2BB1C10507F000F78C2 /* Mass_ChecksumUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Mass_ChecksumUITests.m; sourceTree = "<group>"; };
+		E195A2BD1C10507F000F78C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E195A29B1C10507F000F78C2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E195A2B41C10507F000F78C2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E195A2951C10507F000F78C2 = {
+			isa = PBXGroup;
+			children = (
+				E195A2A01C10507F000F78C2 /* Mass Checksum */,
+				E195A2BA1C10507F000F78C2 /* Mass ChecksumUITests */,
+				E195A29F1C10507F000F78C2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E195A29F1C10507F000F78C2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E195A29E1C10507F000F78C2 /* Mass Checksum.app */,
+				E195A2B71C10507F000F78C2 /* Mass ChecksumUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E195A2A01C10507F000F78C2 /* Mass Checksum */ = {
+			isa = PBXGroup;
+			children = (
+				E195A2A11C10507F000F78C2 /* AppDelegate.h */,
+				E195A2A21C10507F000F78C2 /* AppDelegate.m */,
+				E195A2A71C10507F000F78C2 /* Document.h */,
+				E195A2A81C10507F000F78C2 /* Document.m */,
+				E195A2AA1C10507F000F78C2 /* Document.xib */,
+				E195A2AD1C10507F000F78C2 /* Assets.xcassets */,
+				E195A2AF1C10507F000F78C2 /* MainMenu.xib */,
+				E195A2B21C10507F000F78C2 /* Info.plist */,
+				E195A2A41C10507F000F78C2 /* Supporting Files */,
+			);
+			path = "Mass Checksum";
+			sourceTree = "<group>";
+		};
+		E195A2A41C10507F000F78C2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E195A2A51C10507F000F78C2 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E195A2BA1C10507F000F78C2 /* Mass ChecksumUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E195A2BB1C10507F000F78C2 /* Mass_ChecksumUITests.m */,
+				E195A2BD1C10507F000F78C2 /* Info.plist */,
+			);
+			path = "Mass ChecksumUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E195A29D1C10507F000F78C2 /* Mass Checksum */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E195A2C01C10507F000F78C2 /* Build configuration list for PBXNativeTarget "Mass Checksum" */;
+			buildPhases = (
+				E195A29A1C10507F000F78C2 /* Sources */,
+				E195A29B1C10507F000F78C2 /* Frameworks */,
+				E195A29C1C10507F000F78C2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Mass Checksum";
+			productName = "Mass Checksum";
+			productReference = E195A29E1C10507F000F78C2 /* Mass Checksum.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E195A2B61C10507F000F78C2 /* Mass ChecksumUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E195A2C31C10507F000F78C2 /* Build configuration list for PBXNativeTarget "Mass ChecksumUITests" */;
+			buildPhases = (
+				E195A2B31C10507F000F78C2 /* Sources */,
+				E195A2B41C10507F000F78C2 /* Frameworks */,
+				E195A2B51C10507F000F78C2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E195A2B91C10507F000F78C2 /* PBXTargetDependency */,
+			);
+			name = "Mass ChecksumUITests";
+			productName = "Mass ChecksumUITests";
+			productReference = E195A2B71C10507F000F78C2 /* Mass ChecksumUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E195A2961C10507F000F78C2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "Yoann Gini (Open Source Project)";
+				TargetAttributes = {
+					E195A29D1C10507F000F78C2 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+					E195A2B61C10507F000F78C2 = {
+						CreatedOnToolsVersion = 7.1.1;
+						TestTargetID = E195A29D1C10507F000F78C2;
+					};
+				};
+			};
+			buildConfigurationList = E195A2991C10507F000F78C2 /* Build configuration list for PBXProject "Mass Checksum" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E195A2951C10507F000F78C2;
+			productRefGroup = E195A29F1C10507F000F78C2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E195A29D1C10507F000F78C2 /* Mass Checksum */,
+				E195A2B61C10507F000F78C2 /* Mass ChecksumUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E195A29C1C10507F000F78C2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E195A2AE1C10507F000F78C2 /* Assets.xcassets in Resources */,
+				E195A2AC1C10507F000F78C2 /* Document.xib in Resources */,
+				E195A2B11C10507F000F78C2 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E195A2B51C10507F000F78C2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E195A29A1C10507F000F78C2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E195A2A91C10507F000F78C2 /* Document.m in Sources */,
+				E195A2A61C10507F000F78C2 /* main.m in Sources */,
+				E195A2A31C10507F000F78C2 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E195A2B31C10507F000F78C2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E195A2BC1C10507F000F78C2 /* Mass_ChecksumUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E195A2B91C10507F000F78C2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E195A29D1C10507F000F78C2 /* Mass Checksum */;
+			targetProxy = E195A2B81C10507F000F78C2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E195A2AA1C10507F000F78C2 /* Document.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E195A2AB1C10507F000F78C2 /* Base */,
+			);
+			name = Document.xib;
+			sourceTree = "<group>";
+		};
+		E195A2AF1C10507F000F78C2 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E195A2B01C10507F000F78C2 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E195A2BE1C10507F000F78C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E195A2BF1C10507F000F78C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E195A2C11C10507F000F78C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Mass Checksum/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.Mass-Checksum";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E195A2C21C10507F000F78C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Mass Checksum/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.Mass-Checksum";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		E195A2C41C10507F000F78C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Mass ChecksumUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.Mass-ChecksumUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "Mass Checksum";
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		E195A2C51C10507F000F78C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Mass ChecksumUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.ygini.Mass-ChecksumUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "Mass Checksum";
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E195A2991C10507F000F78C2 /* Build configuration list for PBXProject "Mass Checksum" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E195A2BE1C10507F000F78C2 /* Debug */,
+				E195A2BF1C10507F000F78C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E195A2C01C10507F000F78C2 /* Build configuration list for PBXNativeTarget "Mass Checksum" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E195A2C11C10507F000F78C2 /* Debug */,
+				E195A2C21C10507F000F78C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		E195A2C31C10507F000F78C2 /* Build configuration list for PBXNativeTarget "Mass ChecksumUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E195A2C41C10507F000F78C2 /* Debug */,
+				E195A2C51C10507F000F78C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E195A2961C10507F000F78C2 /* Project object */;
+}
