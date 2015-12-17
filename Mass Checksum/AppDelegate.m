@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 
+#import "Constants.h"
+
 @interface AppDelegate ()
 
 @end
@@ -16,6 +18,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
+    
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{kMassCheckLastSelection: @"~"}];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
