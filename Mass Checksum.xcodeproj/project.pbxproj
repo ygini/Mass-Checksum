@@ -15,6 +15,9 @@
 		E195A2B11C10507F000F78C2 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E195A2AF1C10507F000F78C2 /* MainMenu.xib */; };
 		E195A2BC1C10507F000F78C2 /* Mass_ChecksumUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E195A2BB1C10507F000F78C2 /* Mass_ChecksumUITests.m */; };
 		E195A2C71C105115000F78C2 /* Automator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E195A2C61C105115000F78C2 /* Automator.framework */; };
+		E1D8D6561C22B7D800804B33 /* SHA1MassChecksum.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D8D6551C22B7D800804B33 /* SHA1MassChecksum.m */; };
+		E1D8D6591C22DF5500804B33 /* MassChecksum.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D8D6581C22DF5500804B33 /* MassChecksum.m */; };
+		E1D8D65C1C22E0D900804B33 /* MassChecksumFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D8D65B1C22E0D900804B33 /* MassChecksumFile.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +46,12 @@
 		E195A2BD1C10507F000F78C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E195A2C61C105115000F78C2 /* Automator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Automator.framework; path = System/Library/Frameworks/Automator.framework; sourceTree = SDKROOT; };
 		E195A2C81C105515000F78C2 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		E1D8D6541C22B7D800804B33 /* SHA1MassChecksum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHA1MassChecksum.h; sourceTree = "<group>"; };
+		E1D8D6551C22B7D800804B33 /* SHA1MassChecksum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHA1MassChecksum.m; sourceTree = "<group>"; };
+		E1D8D6571C22DF5500804B33 /* MassChecksum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MassChecksum.h; sourceTree = "<group>"; };
+		E1D8D6581C22DF5500804B33 /* MassChecksum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MassChecksum.m; sourceTree = "<group>"; };
+		E1D8D65A1C22E0D900804B33 /* MassChecksumFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MassChecksumFile.h; sourceTree = "<group>"; };
+		E1D8D65B1C22E0D900804B33 /* MassChecksumFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MassChecksumFile.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +105,12 @@
 				E195A2B21C10507F000F78C2 /* Info.plist */,
 				E195A2A41C10507F000F78C2 /* Supporting Files */,
 				E195A2C81C105515000F78C2 /* Constants.h */,
+				E1D8D6571C22DF5500804B33 /* MassChecksum.h */,
+				E1D8D6581C22DF5500804B33 /* MassChecksum.m */,
+				E1D8D6541C22B7D800804B33 /* SHA1MassChecksum.h */,
+				E1D8D6551C22B7D800804B33 /* SHA1MassChecksum.m */,
+				E1D8D65A1C22E0D900804B33 /* MassChecksumFile.h */,
+				E1D8D65B1C22E0D900804B33 /* MassChecksumFile.m */,
 			);
 			path = "Mass Checksum";
 			sourceTree = "<group>";
@@ -218,8 +233,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E195A2A91C10507F000F78C2 /* Document.m in Sources */,
+				E1D8D6561C22B7D800804B33 /* SHA1MassChecksum.m in Sources */,
 				E195A2A61C10507F000F78C2 /* main.m in Sources */,
 				E195A2A31C10507F000F78C2 /* AppDelegate.m in Sources */,
+				E1D8D65C1C22E0D900804B33 /* MassChecksumFile.m in Sources */,
+				E1D8D6591C22DF5500804B33 /* MassChecksum.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +429,7 @@
 				E195A2C21C10507F000F78C2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E195A2C31C10507F000F78C2 /* Build configuration list for PBXNativeTarget "Mass ChecksumUITests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +438,7 @@
 				E195A2C51C10507F000F78C2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

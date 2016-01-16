@@ -7,22 +7,23 @@
 //
 
 #import "Document.h"
-#import <CommonCrypto/CommonCrypto.h>
 #import "Constants.h"
+#import "SHA1MassChecksum.h"
+#import "MassChecksumFile.h"
 
 @interface Document ()
 
 @property IBOutlet NSString *selectedPath;
 @property (weak) IBOutlet NSTextField *numberOfItemLabel;
+@property (strong) IBOutlet NSTextField *globalChecksumField;
+@property (strong) IBOutlet NSButton *checkButton;
 
-@property NSMutableDictionary *computedDigest;
 @property NSMutableDictionary *originalDigest;
 
-@property NSMutableArray *workingList;
-@property NSInteger numberOfItems;
-
 @property NSTimer *updateUITimer;
+@property NSUInteger numberOfItems;
 
+@property SHA1MassChecksum *massChecksum;
 @end
 
 @implementation Document
@@ -33,9 +34,8 @@
     self = [super init];
     if (self) {
         self.selectedPath = [[NSUserDefaults standardUserDefaults] stringForKey:kMassCheckLastSelection];
-        self.workingList = [NSMutableArray new];
-        self.computedDigest = [NSMutableDictionary new];
         self.originalDigest = [NSMutableDictionary new];
+        self.massChecksum = [SHA1MassChecksum new];
     }
     return self;
 }
@@ -43,6 +43,8 @@
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
+    
+    [self.checkButton setEnabled:NO];
 }
 
 + (BOOL)autosavesInPlace {
@@ -72,7 +74,21 @@
 
 #pragma mark - Actions
 
-- (IBAction)checksumAction:(id)sender {
+- (IBAction)selectTargetFileOrFolder:(id)sender {
+}
+
+
+
+- (IBAction)checkAction:(id)sender {
+    [self.massChecksum computeWorkingListWithCompletionHandler:^(MassChecksum *massChecksum) {
+        MassChecksumFile *massChecksumFile = [[MassChecksumFile alloc] initWithDictionary:massChecksum.computedDigest andChecksumMethod:massChecksum.checksumMethod];
+        
+    }];
+}
+
+#pragma mark - Worklist actions
+
+- (void)loadWorkingList {
     NSFileManager *fm = [NSFileManager defaultManager];
     
     BOOL isDirectory = NO;
@@ -108,7 +124,9 @@
                 }
             }
             
-            [self finishedLoadingWorkingList];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self finishedLoadingWorkingList];
+            });
         });
     } else {
         NSURL *contentURL = [[NSURL alloc] initFileURLWithPath:[self.selectedPath stringByExpandingTildeInPath]];
@@ -119,84 +137,33 @@
     [[NSUserDefaults standardUserDefaults] setObject:self.selectedPath forKey:kMassCheckLastSelection];
 }
 
-#pragma mark - Worklist actions
-
 - (void)startLoadingWorkingList {
     _numberOfItems = 0;
-    [self.workingList removeAllObjects];
-    
     self.updateUITimer = [NSTimer scheduledTimerWithTimeInterval:1
                                                           target:self
                                                         selector:@selector(updateUIWhenLoadingWorkingList)
                                                         userInfo:nil
                                                          repeats:YES];
+    
+    [self.massChecksum clearWorkingList];
+    [self.checkButton setEnabled:NO];
 }
 
 - (void)finishedLoadingWorkingList {
     [self.updateUITimer invalidate];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [self doChecksum];
-    });
-   
+    [self updateUIWhenLoadingWorkingList];
+    [self.checkButton setEnabled:YES];
 }
 
 - (void)addURLToWorkingList:(NSURL*)contentURL {
-    [self.workingList addObject:contentURL];
     _numberOfItems++;
+    [self.massChecksum addURLToWorkingList:contentURL];
 }
 
 - (void)updateUIWhenLoadingWorkingList {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.numberOfItemLabel.stringValue = [NSString stringWithFormat:@"%ld", (long)self.numberOfItems];
     });
-}
-
-#pragma mark - Checksum actions
-
-- (void)doChecksum {
-    [self.workingList sortUsingComparator:^NSComparisonResult(NSURL *obj1, NSURL *obj2) {
-        return [[obj1 path] compare:[obj2 path]];
-    }];
-    
-    [self.computedDigest removeAllObjects];
-    
-    dispatch_group_t checksum_group = dispatch_group_create();
-    
-    for (NSURL *targetURL in self.workingList) {
-        dispatch_group_async(checksum_group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            
-            NSError *error = nil;
-            NSData *targetData = [[NSData alloc] initWithContentsOfURL:targetURL options:NSDataReadingMappedIfSafe | NSDataReadingUncached error:&error];
-            
-            if (targetData) {
-                unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-                
-                CC_SHA1([targetData bytes], (CC_LONG)[targetData length], digest);
-
-                char hash[2 * sizeof(digest) + 1];
-                for (size_t i = 0; i < sizeof(digest); ++i) {
-                    snprintf(hash + (2 * i), 3, "%02x", (int)(digest[i]));
-                }
-                
-                NSString *SHA1Digest = [NSString stringWithUTF8String:hash];
-                
-                [self registerDigest:SHA1Digest forURL:targetURL];
-            } else {
-                // TODO: Error handling
-                NSLog(@"Checksum in progress, impossible to open stream for %@", targetURL);
-            }
-            
-        });
-    }
-    
-    dispatch_group_wait(checksum_group, DISPATCH_TIME_FOREVER);
-    
-    NSLog(@"%@",self.computedDigest);
-}
-
-- (void)registerDigest:(NSString*)digest forURL:(NSURL*)fileURL {
-    [self.computedDigest setObject:digest forKey:[fileURL path]];
 }
 
 @end
