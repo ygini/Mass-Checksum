@@ -7,6 +7,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="Document">
             <connections>
+                <outlet property="changelogPanel" destination="Nfr-sG-Cko" id="fP6-Yb-1HD"/>
+                <outlet property="changelogTextView" destination="O9P-9O-rzp" id="N3d-mS-Nk5"/>
                 <outlet property="computeButton" destination="UAw-gc-j8z" id="J9y-Dd-hbh"/>
                 <outlet property="helpText" destination="Vfj-qE-EZI" id="ICl-K3-Net"/>
                 <outlet property="progressIndicator" destination="H0K-da-mUS" id="92A-vl-5IJ"/>
@@ -129,7 +131,88 @@
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-x8E"/>
             </connections>
-            <point key="canvasLocation" x="247" y="210.5"/>
+            <point key="canvasLocation" x="209" y="35.5"/>
+        </window>
+        <window title="Changelog" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Nfr-sG-Cko" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="139" y="81" width="512" height="378"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <view key="contentView" id="1cx-6z-mqD">
+                <rect key="frame" x="0.0" y="0.0" width="512" height="378"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Pbe-NO-v6R">
+                        <rect key="frame" x="423" y="13" width="75" height="32"/>
+                        <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NVK-U3-8H6">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="closeChangelog:" target="-2" id="Fde-zC-toU"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7ir-cM-rWI">
+                        <rect key="frame" x="353" y="13" width="70" height="32"/>
+                        <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jWH-dE-bWm">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="saveChangelog:" target="-2" id="OEC-At-QYg"/>
+                        </connections>
+                    </button>
+                    <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ab9-Vy-OK1">
+                        <rect key="frame" x="20" y="61" width="472" height="297"/>
+                        <clipView key="contentView" id="UxB-9H-F8m">
+                            <rect key="frame" x="1" y="1" width="470" height="295"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textView editable="NO" importsGraphics="NO" richText="NO" findStyle="bar" continuousSpellChecking="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="O9P-9O-rzp">
+                                    <rect key="frame" x="0.0" y="0.0" width="470" height="295"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="minSize" width="470" height="295"/>
+                                    <size key="maxSize" width="470" height="10000000"/>
+                                    <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <size key="minSize" width="470" height="295"/>
+                                    <size key="maxSize" width="470" height="10000000"/>
+                                </textView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="Ctl-PY-QQ1">
+                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6DB-Yu-ekF">
+                            <rect key="frame" x="455" y="1" width="16" height="295"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="ab9-Vy-OK1" secondAttribute="trailing" constant="20" symbolic="YES" id="9ak-Ay-3Fy"/>
+                    <constraint firstItem="Pbe-NO-v6R" firstAttribute="top" secondItem="ab9-Vy-OK1" secondAttribute="bottom" constant="20" symbolic="YES" id="J3a-fi-hLo"/>
+                    <constraint firstItem="ab9-Vy-OK1" firstAttribute="top" secondItem="1cx-6z-mqD" secondAttribute="top" constant="20" symbolic="YES" id="WlD-6z-9go"/>
+                    <constraint firstItem="Pbe-NO-v6R" firstAttribute="leading" secondItem="7ir-cM-rWI" secondAttribute="trailing" constant="12" symbolic="YES" id="Wo2-9K-Dqq"/>
+                    <constraint firstAttribute="bottom" secondItem="Pbe-NO-v6R" secondAttribute="bottom" constant="20" symbolic="YES" id="Znj-xm-yjw"/>
+                    <constraint firstItem="ab9-Vy-OK1" firstAttribute="leading" secondItem="1cx-6z-mqD" secondAttribute="leading" constant="20" symbolic="YES" id="fHC-ri-7mw"/>
+                    <constraint firstItem="7ir-cM-rWI" firstAttribute="top" secondItem="ab9-Vy-OK1" secondAttribute="bottom" constant="20" symbolic="YES" id="fI3-gX-g50"/>
+                    <constraint firstAttribute="bottom" secondItem="7ir-cM-rWI" secondAttribute="bottom" constant="20" symbolic="YES" id="kJp-kQ-2nh"/>
+                    <constraint firstAttribute="trailing" secondItem="Pbe-NO-v6R" secondAttribute="trailing" constant="20" symbolic="YES" id="kiW-jY-LVe"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="initialFirstResponder" destination="7ir-cM-rWI" id="OVn-OI-j00"/>
+            </connections>
+            <point key="canvasLocation" x="205" y="363"/>
         </window>
     </objects>
 </document>

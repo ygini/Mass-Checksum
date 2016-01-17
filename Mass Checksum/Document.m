@@ -24,6 +24,9 @@
 @property MassChecksumFile *massChecksumFileToVerify;
 @property MassChecksumFile *massChecksumFile;
 
+@property (strong) IBOutlet NSPanel *changelogPanel;
+@property (strong) IBOutlet NSTextView *changelogTextView;
+
 @end
 
 @implementation Document
@@ -132,23 +135,34 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 if ([self.massChecksumFileToVerify.globalChecksum isEqualToString:self.massChecksumFile.globalChecksum]) {
-                    [[NSAlert alertWithMessageText:@"Success"
-                                     defaultButton:@"OK"
-                                   alternateButton:nil
-                                       otherButton:nil
-                         informativeTextWithFormat:@"Target folder is the same as before!"] beginSheetModalForWindow:self.windowForSheet
-                     completionHandler:^(NSModalResponse returnCode) {
-                         
-                     }];
+                    NSAlert * alert = [[NSAlert alloc] init];
+                    
+                    alert.alertStyle = NSInformationalAlertStyle;
+                    alert.messageText = @"Success";
+                    alert.informativeText = @"Target folder is the same as before!";
+                    
+                    [alert addButtonWithTitle:@"OK"];
+                    
+                    [alert beginSheetModalForWindow:self.windowForSheet
+                                  completionHandler:^(NSModalResponse returnCode) {
+                                      
+                                  }];
                 } else {
-                    [[NSAlert alertWithMessageText:@"ERROR"
-                                     defaultButton:@"OK"
-                                   alternateButton:nil
-                                       otherButton:nil
-                         informativeTextWithFormat:@"Target folder has changed!"] beginSheetModalForWindow:self.windowForSheet
-                     completionHandler:^(NSModalResponse returnCode) {
-                         [self showDifferences];
-                     }];
+                    NSAlert * alert = [[NSAlert alloc] init];
+                    
+                    alert.alertStyle = NSInformationalAlertStyle;
+                    alert.messageText = @"ERROR";
+                    alert.informativeText = @"Target folder has changed!";
+                    
+                    [alert addButtonWithTitle:@"OK"];
+                    [alert addButtonWithTitle:@"Changelog"];
+                    
+                    [alert beginSheetModalForWindow:self.windowForSheet
+                                  completionHandler:^(NSModalResponse returnCode) {
+                                      if (returnCode == NSAlertSecondButtonReturn) {
+                                          [self showDifferences];
+                                      }
+                                  }];
                 }
                 
             });
@@ -193,10 +207,77 @@
         }
     }
     
-    NSLog(@"Created files %@", createdFiles);
-    NSLog(@"Deleted files %@", deletedFiles);
-    NSLog(@"Updated files %@", updatedFiles);
+    NSMutableString *differencesLog = [NSMutableString new];
+    
+    [differencesLog appendString:@"### Created Files ###"];
+    [differencesLog appendString:@"\n"];
+    
+    for (NSString *file in createdFiles) {
+        [differencesLog appendString:@"."];
+        [differencesLog appendString:file];
+        [differencesLog appendString:@"\n"];
+    }
+    
+    [differencesLog appendString:@"\n"];
+    [differencesLog appendString:@"### Deleted Files ###"];
+    [differencesLog appendString:@"\n"];
+    
+    for (NSString *file in deletedFiles) {
+        [differencesLog appendString:@"."];
+        [differencesLog appendString:file];
+        [differencesLog appendString:@"\n"];
+    }
+    
+    [differencesLog appendString:@"\n"];
+    [differencesLog appendString:@"### Updated Files ###"];
+    [differencesLog appendString:@"\n"];
+    
+    for (NSString *file in updatedFiles) {
+        [differencesLog appendString:@"."];
+        [differencesLog appendString:file];
+        [differencesLog appendString:@"\n"];
+    }
+    
+    
+    self.changelogTextView.string = differencesLog;
+    
+    [self.windowForSheet beginSheet:self.changelogPanel completionHandler:^(NSModalResponse returnCode) {
+    }];
+    
 }
+
+#pragma mark - Changelog actions
+
+- (IBAction)closeChangelog:(id)sender {
+    [self.windowForSheet endSheet:self.changelogPanel];
+}
+
+- (IBAction)saveChangelog:(id)sender {
+    [self.windowForSheet endSheet:self.changelogPanel];
+    
+    NSSavePanel *savePanel = [NSSavePanel savePanel];
+    
+    savePanel.allowedFileTypes = @[@"txt"];
+    
+    [savePanel beginSheetModalForWindow:self.windowForSheet
+                      completionHandler:^(NSInteger result) {
+                          if (result == NSFileHandlingPanelOKButton) {
+                              NSError *error = nil;
+                              [self.changelogTextView.string writeToFile:[savePanel.URL path]
+                                                              atomically:YES
+                                                                encoding:NSUTF8StringEncoding
+                                                                   error:&error];
+                              
+                              if (error) {
+                                  NSAlert *alert = [NSAlert alertWithError:error];
+                                  [alert beginSheetModalForWindow:self.windowForSheet
+                                                completionHandler:^(NSModalResponse returnCode) {
+                                                }];
+                              }
+                          }
+                      }];
+}
+
 
 #pragma mark - Worklist actions
 
