@@ -14,7 +14,6 @@
 		E195A2AE1C10507F000F78C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E195A2AD1C10507F000F78C2 /* Assets.xcassets */; };
 		E195A2B11C10507F000F78C2 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E195A2AF1C10507F000F78C2 /* MainMenu.xib */; };
 		E195A2BC1C10507F000F78C2 /* Mass_ChecksumUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E195A2BB1C10507F000F78C2 /* Mass_ChecksumUITests.m */; };
-		E195A2C71C105115000F78C2 /* Automator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E195A2C61C105115000F78C2 /* Automator.framework */; };
 		E1D8D6561C22B7D800804B33 /* SHA1MassChecksum.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D8D6551C22B7D800804B33 /* SHA1MassChecksum.m */; };
 		E1D8D6591C22DF5500804B33 /* MassChecksum.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D8D6581C22DF5500804B33 /* MassChecksum.m */; };
 		E1D8D65C1C22E0D900804B33 /* MassChecksumFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D8D65B1C22E0D900804B33 /* MassChecksumFile.m */; };
@@ -45,7 +44,6 @@
 		E195A2B71C10507F000F78C2 /* Mass ChecksumUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mass ChecksumUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E195A2BB1C10507F000F78C2 /* Mass_ChecksumUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Mass_ChecksumUITests.m; sourceTree = "<group>"; };
 		E195A2BD1C10507F000F78C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E195A2C61C105115000F78C2 /* Automator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Automator.framework; path = System/Library/Frameworks/Automator.framework; sourceTree = SDKROOT; };
 		E195A2C81C105515000F78C2 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		E1D8D6541C22B7D800804B33 /* SHA1MassChecksum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHA1MassChecksum.h; sourceTree = "<group>"; };
 		E1D8D6551C22B7D800804B33 /* SHA1MassChecksum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHA1MassChecksum.m; sourceTree = "<group>"; };
@@ -62,7 +60,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E195A2C71C105115000F78C2 /* Automator.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,7 +76,6 @@
 		E195A2951C10507F000F78C2 = {
 			isa = PBXGroup;
 			children = (
-				E195A2C61C105115000F78C2 /* Automator.framework */,
 				E195A2A01C10507F000F78C2 /* Mass Checksum */,
 				E195A2BA1C10507F000F78C2 /* Mass ChecksumUITests */,
 				E195A29F1C10507F000F78C2 /* Products */,
@@ -144,6 +140,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E195A2C01C10507F000F78C2 /* Build configuration list for PBXNativeTarget "Mass Checksum" */;
 			buildPhases = (
+				E1F900F01C4BAD7000A15E40 /* GitVersion */,
 				E195A29A1C10507F000F78C2 /* Sources */,
 				E195A29B1C10507F000F78C2 /* Frameworks */,
 				E195A29C1C10507F000F78C2 /* Resources */,
@@ -231,6 +228,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E1F900F01C4BAD7000A15E40 /* GitVersion */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = GitVersion;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -o errexit\nset -o nounset\n\nINFO_PLIST=\"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Info\"\n\nVERSION=$(git rev-list HEAD | wc -l)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION\" \"${INFOPLIST_FILE}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E195A29A1C10507F000F78C2 /* Sources */ = {
