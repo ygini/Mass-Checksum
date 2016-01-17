@@ -8,15 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
+@class MassChecksum;
+
 @interface MassChecksumFile : NSObject
 
-- (instancetype)initWithDictionary:(NSDictionary*)checksumDictionary andChecksumMethod:(NSString*)checksumMethod;
+- (instancetype)initWithMassChecksum:(MassChecksum*)massChecksum;
 - (instancetype)initWithFileURL:(NSURL*)checksumFileURL;
+- (instancetype)initWithData:(NSData*)checksumFileData;
 
-- (NSDictionary*)dictionaryRepresentation;
 - (NSString*)fileRepresentation;
 - (NSData*)fileRepresentationUTF8Encoded;
-- (NSString*)checksumMethod;
+- (NSString*)globalChecksum;
+
+@property (readonly) MassChecksum *massChecksum;
 
 - (void)writeToFile:(NSString*)path atomically:(BOOL)atomically;
 - (void)writeToURL:(NSURL*)url atomically:(BOOL)atomically;

@@ -12,6 +12,7 @@
 
 @property NSMutableDictionary *computedDigest;
 @property NSMutableArray *workingList;
+@property NSString *basePath;
 
 @end
 
@@ -40,6 +41,12 @@
     return @"ERROR";
 }
 
+- (void)changeBasePath:(NSString *)basePath {
+    [self clearWorkingList];
+    [self.computedDigest removeAllObjects];
+    self.basePath = basePath;
+}
+
 #pragma mark - Worklist actions
 
 
@@ -55,8 +62,13 @@
     });
 }
 
-- (void)addURLToWorkingList:(NSURL*)contentURL {
-    [self.workingList addObject:contentURL];
+- (void)addRelativePathToWorkingList:(NSString *)relativePath {
+    [self.workingList addObject:relativePath];
+}
+
+- (void)setWorklistToSingleFile:(NSURL*)singleFileURL {
+    [self changeBasePath:nil];
+    [self.workingList addObject:singleFileURL];
 }
 
 #pragma mark - Checksum actions
@@ -64,33 +76,43 @@
 - (void)doChecksum {
     [self.computedDigest removeAllObjects];
     
+    
     dispatch_group_t checksum_group = dispatch_group_create();
     
-    for (NSURL *targetURL in self.workingList) {
+    for (NSString *relativePath in self.workingList) {
         dispatch_group_async(checksum_group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             
+            NSString *targetPath = nil;
+            if (self.basePath) {
+                targetPath = [self.basePath stringByAppendingPathComponent:relativePath];
+            } else {
+                targetPath = relativePath;
+            }
+            
             NSError *error = nil;
-            NSData *targetData = [[NSData alloc] initWithContentsOfURL:targetURL options:NSDataReadingMappedIfSafe | NSDataReadingUncached error:&error];
+            NSData *targetData = [[NSData alloc] initWithContentsOfFile:targetPath options:NSDataReadingMappedIfSafe | NSDataReadingUncached error:&error];
             
             if (targetData) {
                 NSString *SHA1Digest = [[self class] checksum:targetData];
-                [self registerDigest:SHA1Digest forURL:targetURL];
+                [self registerDigest:SHA1Digest forRelativePath:relativePath];
             } else {
                 // TODO: Error handling
-                NSLog(@"Checksum in progress, impossible to open stream for %@", targetURL);
+                NSLog(@"Checksum in progress, impossible to open stream for %@", targetPath);
             }
             
         });
     }
     
     dispatch_group_wait(checksum_group, DISPATCH_TIME_FOREVER);
+    
+    
 }
 
-- (void)registerDigest:(NSString*)digest forURL:(NSURL*)fileURL {
+- (void)registerDigest:(NSString*)digest forRelativePath:(NSString*)relativePath {
     static OSSpinLock lock = OS_SPINLOCK_INIT;
     
     OSSpinLockLock(&lock);
-    [self.computedDigest setObject:digest forKey:[fileURL path]];
+    [self.computedDigest setObject:digest forKey:relativePath];
     OSSpinLockUnlock(&lock);
 }
 

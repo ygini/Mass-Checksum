@@ -14,16 +14,16 @@
 @interface Document ()
 
 @property IBOutlet NSString *selectedPath;
-@property (weak) IBOutlet NSTextField *numberOfItemLabel;
-@property (strong) IBOutlet NSTextField *globalChecksumField;
-@property (strong) IBOutlet NSButton *checkButton;
+@property (strong) NSString *globalChecksum;
+@property (strong) IBOutlet NSButton *computeButton;
+@property (strong) IBOutlet NSProgressIndicator *progressIndicator;
 
-@property NSMutableDictionary *originalDigest;
-
-@property NSTimer *updateUITimer;
-@property NSUInteger numberOfItems;
+@property (strong) IBOutlet NSTextField *helpText;
 
 @property SHA1MassChecksum *massChecksum;
+@property MassChecksumFile *massChecksumFileToVerify;
+@property MassChecksumFile *massChecksumFile;
+
 @end
 
 @implementation Document
@@ -33,8 +33,6 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.selectedPath = [[NSUserDefaults standardUserDefaults] stringForKey:kMassCheckLastSelection];
-        self.originalDigest = [NSMutableDictionary new];
         self.massChecksum = [SHA1MassChecksum new];
     }
     return self;
@@ -42,61 +40,177 @@
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {
     [super windowControllerDidLoadNib:aController];
-    // Add any code here that needs to be executed once the windowController has loaded the document's window.
     
-    [self.checkButton setEnabled:NO];
+    if (self.massChecksumFileToVerify) {
+        self.selectedPath = self.massChecksumFileToVerify.massChecksum.basePath;
+        self.globalChecksum = self.massChecksumFileToVerify.globalChecksum;
+
+        self.computeButton.title = @"Verify";
+        
+        BOOL isDirectory = NO;
+        [[NSFileManager defaultManager] fileExistsAtPath:[self.selectedPath stringByExpandingTildeInPath] isDirectory:&isDirectory];
+        
+        if (isDirectory) {
+            self.computeButton.enabled = YES;
+            [self loadWorkingList];
+        } else {
+            NSAlert *alert = [NSAlert alertWithMessageText:@"Base folder error"
+                                             defaultButton:@"OK"
+                                           alternateButton:@"Cancel"
+                                               otherButton:nil
+                                 informativeTextWithFormat:@"No access to original base folder, please select it."];
+            
+            if ([alert runModal] == NSOKButton) {
+                [self selectTargetFolderToVerify:self];
+                
+            }
+        }
+    } else {
+        self.computeButton.enabled = NO;
+    }
 }
 
 + (BOOL)autosavesInPlace {
-    return YES;
+    return NO;
 }
 
 - (NSString *)windowNibName {
-    // Override returning the nib file name of the document
-    // If you need to use a subclass of NSWindowController or if your document supports multiple NSWindowControllers, you should remove this method and override -makeWindowControllers instead.
     return @"Document";
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
-    // Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning nil.
-    // You can also choose to override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
-    [NSException raise:@"UnimplementedMethod" format:@"%@ is unimplemented", NSStringFromSelector(_cmd)];
-    return nil;
+    return self.massChecksumFileToVerify != nil ? self.massChecksumFileToVerify.fileRepresentationUTF8Encoded : self.massChecksumFile.fileRepresentationUTF8Encoded;
 }
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError {
-    // Insert code here to read your document from the given data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning NO.
-    // You can also choose to override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.
-    // If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
-    [NSException raise:@"UnimplementedMethod" format:@"%@ is unimplemented", NSStringFromSelector(_cmd)];
+    self.massChecksumFileToVerify = [[MassChecksumFile alloc] initWithData:data];
+    
     return YES;
 }
 
 #pragma mark - Actions
 
 - (IBAction)selectTargetFileOrFolder:(id)sender {
+    
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    panel.allowsMultipleSelection = NO;
+    panel.canChooseDirectories = YES;
+    
+    [panel beginSheetModalForWindow:self.windowForSheet
+                  completionHandler:^(NSInteger result) {
+                      if (result == NSOKButton) {
+                          self.selectedPath = [panel.URL path];
+                          [self loadWorkingList];
+                      }
+                  }];
+}
+
+- (IBAction)selectTargetFolderToVerify:(id)sender {
+    
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    panel.allowsMultipleSelection = NO;
+    panel.canChooseDirectories = YES;
+    panel.canChooseFiles = NO;
+    
+    [panel beginSheetModalForWindow:self.windowForSheet
+                  completionHandler:^(NSInteger result) {
+                      if (result == NSOKButton) {
+                          self.selectedPath = [panel.URL path];
+                          [self loadWorkingList];
+                      }
+                  }];
 }
 
 
 
 - (IBAction)checkAction:(id)sender {
-    [self.massChecksum computeWorkingListWithCompletionHandler:^(MassChecksum *massChecksum) {
-        MassChecksumFile *massChecksumFile = [[MassChecksumFile alloc] initWithDictionary:massChecksum.computedDigest andChecksumMethod:massChecksum.checksumMethod];
+    
+    if (self.massChecksumFileToVerify) {
+        [self.massChecksum computeWorkingListWithCompletionHandler:^(MassChecksum *massChecksum) {
+            self.massChecksumFile = [[MassChecksumFile alloc] initWithMassChecksum:massChecksum];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                if ([self.massChecksumFileToVerify.globalChecksum isEqualToString:self.massChecksumFile.globalChecksum]) {
+                    [[NSAlert alertWithMessageText:@"Success"
+                                     defaultButton:@"OK"
+                                   alternateButton:nil
+                                       otherButton:nil
+                         informativeTextWithFormat:@"Target folder is the same as before!"] beginSheetModalForWindow:self.windowForSheet
+                     completionHandler:^(NSModalResponse returnCode) {
+                         
+                     }];
+                } else {
+                    [[NSAlert alertWithMessageText:@"ERROR"
+                                     defaultButton:@"OK"
+                                   alternateButton:nil
+                                       otherButton:nil
+                         informativeTextWithFormat:@"Target folder has changed!"] beginSheetModalForWindow:self.windowForSheet
+                     completionHandler:^(NSModalResponse returnCode) {
+                         [self showDifferences];
+                     }];
+                }
+                
+            });
+
+        }];
         
-    }];
+    } else {
+        [self.massChecksum computeWorkingListWithCompletionHandler:^(MassChecksum *massChecksum) {
+            self.massChecksumFile = [[MassChecksumFile alloc] initWithMassChecksum:massChecksum];
+            
+            self.globalChecksum = self.massChecksumFile.globalChecksum;
+        }];
+    }
+}
+
+- (void)showDifferences {
+    NSDictionary *originalDigestes = self.massChecksumFileToVerify.massChecksum.computedDigest;
+    NSDictionary *currentDigestes = self.massChecksumFile.massChecksum.computedDigest;
+    
+    
+    // File differences
+    NSMutableArray *createdFiles = [NSMutableArray new];
+    NSMutableArray *deletedFiles = [NSMutableArray new];
+    NSMutableArray *updatedFiles = [NSMutableArray new];
+    
+    for (NSString *file in [originalDigestes allKeys]) {
+        NSString *oldDigest = [originalDigestes objectForKey:file];
+        NSString *newDigest = [currentDigestes objectForKey:file];
+        
+        if (!newDigest) {
+            [deletedFiles addObject:file];
+        } else if (![oldDigest isEqualToString:newDigest]) {
+            [updatedFiles addObject:file];
+        }
+    }
+    
+    for (NSString *file in [currentDigestes allKeys]) {
+        NSString *oldDigest = [originalDigestes objectForKey:file];
+        
+        if (!oldDigest) {
+            [createdFiles addObject:file];
+        }
+    }
+    
+    NSLog(@"Created files %@", createdFiles);
+    NSLog(@"Deleted files %@", deletedFiles);
+    NSLog(@"Updated files %@", updatedFiles);
 }
 
 #pragma mark - Worklist actions
 
 - (void)loadWorkingList {
+    [self startLoadingWorkingList];
+    
     NSFileManager *fm = [NSFileManager defaultManager];
     
     BOOL isDirectory = NO;
     [fm fileExistsAtPath:[self.selectedPath stringByExpandingTildeInPath] isDirectory:&isDirectory];
     
-    [self startLoadingWorkingList];
-    
     if (isDirectory) {
+        [self.massChecksum changeBasePath:self.selectedPath];
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSURL *directoryURL = [[NSURL alloc] initFileURLWithPath:[self.selectedPath stringByExpandingTildeInPath]];
             
@@ -104,10 +218,17 @@
                                             includingPropertiesForKeys:@[NSURLIsDirectoryKey]
                                                                options:0
                                                           errorHandler:^BOOL(NSURL * _Nonnull url, NSError * _Nonnull error) {
-                                                              // TODO: See what happen with access right errors
-                                                              NSLog(@"%@", error);
-                                                              return YES;
+                                                              NSAlert *alert = [NSAlert alertWithError:error];
+                                                              [alert beginSheetModalForWindow:self.windowForSheet
+                                                                            completionHandler:^(NSModalResponse returnCode) {
+                                                                            }];
+                                                              
+                                                              return NO;
                                                           }];
+            
+            NSRange basePathRange;
+            basePathRange.location = 0;
+            basePathRange.length = [self.selectedPath length];
             
             for (NSURL *contentURL in directoryEnum) {
                 NSError *error = nil;
@@ -117,10 +238,13 @@
                                        error:&error];
                 
                 if (error) {
-                    // TODO: Error handling
-                    NSLog(@"%@", error);
+                    NSAlert *alert = [NSAlert alertWithError:error];
+                    [alert beginSheetModalForWindow:self.windowForSheet
+                                  completionHandler:^(NSModalResponse returnCode) {
+                                  }];
+                    
                 } else if (![isDirectoryObject boolValue]){
-                    [self addURLToWorkingList:contentURL];
+                    [self.massChecksum addRelativePathToWorkingList:[[contentURL path] stringByReplacingCharactersInRange:basePathRange withString:@""]];
                 }
             }
             
@@ -129,41 +253,21 @@
             });
         });
     } else {
-        NSURL *contentURL = [[NSURL alloc] initFileURLWithPath:[self.selectedPath stringByExpandingTildeInPath]];
-        [self addURLToWorkingList:contentURL];
+        [self.massChecksum changeBasePath:nil];
+        [self.massChecksum addRelativePathToWorkingList:self.selectedPath];
         [self finishedLoadingWorkingList];
     }
-    
-    [[NSUserDefaults standardUserDefaults] setObject:self.selectedPath forKey:kMassCheckLastSelection];
 }
 
 - (void)startLoadingWorkingList {
-    _numberOfItems = 0;
-    self.updateUITimer = [NSTimer scheduledTimerWithTimeInterval:1
-                                                          target:self
-                                                        selector:@selector(updateUIWhenLoadingWorkingList)
-                                                        userInfo:nil
-                                                         repeats:YES];
-    
     [self.massChecksum clearWorkingList];
-    [self.checkButton setEnabled:NO];
+    self.computeButton.enabled = NO;
+    [self.progressIndicator startAnimation:self];
 }
 
 - (void)finishedLoadingWorkingList {
-    [self.updateUITimer invalidate];
-    [self updateUIWhenLoadingWorkingList];
-    [self.checkButton setEnabled:YES];
-}
-
-- (void)addURLToWorkingList:(NSURL*)contentURL {
-    _numberOfItems++;
-    [self.massChecksum addURLToWorkingList:contentURL];
-}
-
-- (void)updateUIWhenLoadingWorkingList {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.numberOfItemLabel.stringValue = [NSString stringWithFormat:@"%ld", (long)self.numberOfItems];
-    });
+    self.computeButton.enabled = YES;
+    [self.progressIndicator stopAnimation:self];
 }
 
 @end

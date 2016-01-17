@@ -17,12 +17,15 @@ typedef void(^MassChecksumCompletionHandler)(MassChecksum *massChecksum);
 
 @property (readonly) NSMutableDictionary *computedDigest;
 @property (readonly) NSMutableArray *workingList;
+@property (readonly) NSString *basePath;
 
 + (NSString*)checksum:(NSData*)data;
 
-- (void)addURLToWorkingList:(NSURL*)contentURL;
+- (void)changeBasePath:(NSString*)basePath;
+- (void)addRelativePathToWorkingList:(NSString*)relativePath;
 - (void)clearWorkingList;
 - (void)computeWorkingListWithCompletionHandler:(MassChecksumCompletionHandler)completionHandler;
+- (void)setWorklistToSingleFile:(NSURL*)singleFileURL;
 
 - (NSString*)checksumMethod;
 

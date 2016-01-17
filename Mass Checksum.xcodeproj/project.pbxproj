@@ -18,6 +18,7 @@
 		E1D8D6561C22B7D800804B33 /* SHA1MassChecksum.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D8D6551C22B7D800804B33 /* SHA1MassChecksum.m */; };
 		E1D8D6591C22DF5500804B33 /* MassChecksum.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D8D6581C22DF5500804B33 /* MassChecksum.m */; };
 		E1D8D65C1C22E0D900804B33 /* MassChecksumFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D8D65B1C22E0D900804B33 /* MassChecksumFile.m */; };
+		E1F900E61C4A9FDD00A15E40 /* DummyMassChecksum.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F900E51C4A9FDD00A15E40 /* DummyMassChecksum.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +37,7 @@
 		E195A2A21C10507F000F78C2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E195A2A51C10507F000F78C2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E195A2A71C10507F000F78C2 /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
-		E195A2A81C10507F000F78C2 /* Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
+		E195A2A81C10507F000F78C2 /* Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Document.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E195A2AB1C10507F000F78C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Document.xib; sourceTree = "<group>"; };
 		E195A2AD1C10507F000F78C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E195A2B01C10507F000F78C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -48,10 +49,12 @@
 		E195A2C81C105515000F78C2 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		E1D8D6541C22B7D800804B33 /* SHA1MassChecksum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHA1MassChecksum.h; sourceTree = "<group>"; };
 		E1D8D6551C22B7D800804B33 /* SHA1MassChecksum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHA1MassChecksum.m; sourceTree = "<group>"; };
-		E1D8D6571C22DF5500804B33 /* MassChecksum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MassChecksum.h; sourceTree = "<group>"; };
-		E1D8D6581C22DF5500804B33 /* MassChecksum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MassChecksum.m; sourceTree = "<group>"; };
+		E1D8D6571C22DF5500804B33 /* MassChecksum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MassChecksum.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		E1D8D6581C22DF5500804B33 /* MassChecksum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MassChecksum.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E1D8D65A1C22E0D900804B33 /* MassChecksumFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MassChecksumFile.h; sourceTree = "<group>"; };
-		E1D8D65B1C22E0D900804B33 /* MassChecksumFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MassChecksumFile.m; sourceTree = "<group>"; };
+		E1D8D65B1C22E0D900804B33 /* MassChecksumFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MassChecksumFile.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		E1F900E41C4A9FDD00A15E40 /* DummyMassChecksum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DummyMassChecksum.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		E1F900E51C4A9FDD00A15E40 /* DummyMassChecksum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DummyMassChecksum.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +112,8 @@
 				E1D8D6581C22DF5500804B33 /* MassChecksum.m */,
 				E1D8D6541C22B7D800804B33 /* SHA1MassChecksum.h */,
 				E1D8D6551C22B7D800804B33 /* SHA1MassChecksum.m */,
+				E1F900E41C4A9FDD00A15E40 /* DummyMassChecksum.h */,
+				E1F900E51C4A9FDD00A15E40 /* DummyMassChecksum.m */,
 				E1D8D65A1C22E0D900804B33 /* MassChecksumFile.h */,
 				E1D8D65B1C22E0D900804B33 /* MassChecksumFile.m */,
 			);
@@ -238,6 +243,7 @@
 				E195A2A31C10507F000F78C2 /* AppDelegate.m in Sources */,
 				E1D8D65C1C22E0D900804B33 /* MassChecksumFile.m in Sources */,
 				E1D8D6591C22DF5500804B33 /* MassChecksum.m in Sources */,
+				E1F900E61C4A9FDD00A15E40 /* DummyMassChecksum.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
