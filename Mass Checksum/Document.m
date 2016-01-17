@@ -45,29 +45,49 @@
     [super windowControllerDidLoadNib:aController];
     
     if (self.massChecksumFileToVerify) {
-        self.selectedPath = self.massChecksumFileToVerify.massChecksum.basePath;
         self.globalChecksum = self.massChecksumFileToVerify.globalChecksum;
-
         self.computeButton.title = @"Verify";
         
-        BOOL isDirectory = NO;
-        [[NSFileManager defaultManager] fileExistsAtPath:[self.selectedPath stringByExpandingTildeInPath] isDirectory:&isDirectory];
-        
-        if (isDirectory) {
-            self.computeButton.enabled = YES;
-            [self loadWorkingList];
-        } else {
-            NSAlert *alert = [NSAlert alertWithMessageText:@"Base folder error"
-                                             defaultButton:@"OK"
-                                           alternateButton:@"Cancel"
-                                               otherButton:nil
-                                 informativeTextWithFormat:@"No access to original base folder, please select it."];
+        if (self.massChecksumFileToVerify.massChecksum.basePath) {
+            self.selectedPath = self.massChecksumFileToVerify.massChecksum.basePath;
+            BOOL isDirectory = NO;
+            [[NSFileManager defaultManager] fileExistsAtPath:[self.selectedPath stringByExpandingTildeInPath] isDirectory:&isDirectory];
             
-            if ([alert runModal] == NSOKButton) {
-                [self selectTargetFolderToVerify:self];
+            if (isDirectory) {
+                self.computeButton.enabled = YES;
+                [self loadWorkingList];
+            } else {
+                NSAlert *alert = [NSAlert alertWithMessageText:@"Base folder error"
+                                                 defaultButton:@"OK"
+                                               alternateButton:@"Cancel"
+                                                   otherButton:nil
+                                     informativeTextWithFormat:@"No access to original base folder, please select it."];
                 
+                if ([alert runModal] == NSOKButton) {
+                    [self selectTargetFolderToVerify:self];
+                    
+                }
             }
+        } else if ([self.massChecksumFileToVerify.massChecksum.computedDigest count] == 1) {
+            self.selectedPath = [[self.massChecksumFileToVerify.massChecksum.computedDigest allKeys] lastObject];
+            if (![[NSFileManager defaultManager] fileExistsAtPath:self.selectedPath]) {
+                NSAlert *alert = [NSAlert alertWithMessageText:@"Target file error"
+                                                 defaultButton:@"OK"
+                                               alternateButton:@"Cancel"
+                                                   otherButton:nil
+                                     informativeTextWithFormat:@"Target file %@ not found, please select it.", [self.selectedPath lastPathComponent]];
+                
+                if ([alert runModal] == NSOKButton) {
+                    [self selectTargetFileToVerify:self];
+                }
+            } else {
+                [self loadWorkingList];
+            }
+            
+        } else {
+            assert(@"More than one file without base folder isn't supported in this version");
         }
+
     } else {
         self.computeButton.enabled = NO;
     }
@@ -124,6 +144,22 @@
                   }];
 }
 
+- (IBAction)selectTargetFileToVerify:(id)sender {
+    
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    panel.allowsMultipleSelection = NO;
+    panel.canChooseDirectories = NO;
+    panel.canChooseFiles = YES;
+    
+    [panel beginSheetModalForWindow:self.windowForSheet
+                  completionHandler:^(NSInteger result) {
+                      if (result == NSOKButton) {
+                          self.selectedPath = [panel.URL path];
+                          [self loadWorkingList];
+                      }
+                  }];
+}
+
 
 
 - (IBAction)checkAction:(id)sender {
@@ -152,10 +188,16 @@
                     
                     alert.alertStyle = NSInformationalAlertStyle;
                     alert.messageText = @"ERROR";
-                    alert.informativeText = @"Target folder has changed!";
                     
                     [alert addButtonWithTitle:@"OK"];
-                    [alert addButtonWithTitle:@"Changelog"];
+                    
+                    if ([self.massChecksumFileToVerify.massChecksum.basePath length] > 0) {
+                        alert.informativeText = @"Target folder has changed!";
+                        [alert addButtonWithTitle:@"Changelog"];
+                    } else {
+                        alert.informativeText = @"Target file has changed!";
+                    }
+                    
                     
                     [alert beginSheetModalForWindow:self.windowForSheet
                                   completionHandler:^(NSModalResponse returnCode) {
@@ -183,7 +225,6 @@
     NSDictionary *currentDigestes = self.massChecksumFile.massChecksum.computedDigest;
     
     
-    // File differences
     NSMutableArray *createdFiles = [NSMutableArray new];
     NSMutableArray *deletedFiles = [NSMutableArray new];
     NSMutableArray *updatedFiles = [NSMutableArray new];
@@ -213,7 +254,6 @@
     [differencesLog appendString:@"\n"];
     
     for (NSString *file in createdFiles) {
-        [differencesLog appendString:@"."];
         [differencesLog appendString:file];
         [differencesLog appendString:@"\n"];
     }
@@ -223,7 +263,6 @@
     [differencesLog appendString:@"\n"];
     
     for (NSString *file in deletedFiles) {
-        [differencesLog appendString:@"."];
         [differencesLog appendString:file];
         [differencesLog appendString:@"\n"];
     }
@@ -233,11 +272,9 @@
     [differencesLog appendString:@"\n"];
     
     for (NSString *file in updatedFiles) {
-        [differencesLog appendString:@"."];
         [differencesLog appendString:file];
         [differencesLog appendString:@"\n"];
     }
-    
     
     self.changelogTextView.string = differencesLog;
     

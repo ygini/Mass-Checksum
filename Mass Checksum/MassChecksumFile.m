@@ -100,7 +100,8 @@
             
             if (![checksumMethod isEqualToString:info[@"checksumMethod"]]) {
                 checksumMethod = info[@"checksumMethod"];
-                NSAssert(++checksumMethodChange <= 1, @"Checksum file use multiple checksum method, this is not supported by this release.");
+                checksumMethodChange++;
+                NSAssert(checksumMethodChange <= 1, @"Checksum file use multiple checksum method, this is not supported by this release.");
             }
         }
     }
@@ -162,13 +163,16 @@
         [finalString appendString:kMassChecksumFileOriginalSourcePrefix];
         [finalString appendString:self.massChecksum.basePath];
         [finalString appendString:@"\n"];
-        
-//        [self.arrayOfString sortUsingSelector:@selector(compare:)];
-        
+                
         for (NSString *line in self.arrayOfString) {
             [finalString appendString:line];
             [finalString appendString:@"\n"];
         }
+    } else if ([self.arrayOfString count] == 1) {
+        [finalString appendString:[self.arrayOfString lastObject]];
+        [finalString appendString:@"\n"];
+    } else {
+        assert(@"More than one file without base folder isn't supported in this version");
     }
     
     return finalString;
